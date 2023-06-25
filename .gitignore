@@ -1,0 +1,18 @@
+# PyCharm files
+.idea/
+
+# Virtual environments
+.venv/
+venv/
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Custom directories
+media/
+static/
+
+sandbox.py
