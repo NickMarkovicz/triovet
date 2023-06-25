@@ -1,0 +1,19 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-white mb-4" style="border-bottom-right-radius: 20px; border-bottom-left-radius: 20px">
+    <div class="container-fluid">
+        <img class="img-fluid object-fit-cover" style="margin: 0 10px 0 40px" src="{% static 'images/logo.png' %}"
+             alt="Logo" width="5%">
+        <a class="navbar-brand fw-semibold" style="font-family: 'Open Sans',sans-serif" href="/">Triovet</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav gap-2">
+                <a class="btn btn-dark text-white" href="/">Home</a>
+                <a class="btn btn-dark text-white" href="/appointments/">Appointments</a>
+                <a class="btn btn-success" href="/admin/">Open Admin Panel</a>
+            </div>
+        </div>
+    </div>
+</nav>
