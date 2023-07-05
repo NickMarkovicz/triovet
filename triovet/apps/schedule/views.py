@@ -1,32 +1,54 @@
-from datetime import date, datetime, timedelta
-from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
-from django.shortcuts import render
+from triovet.apps.schedule.models import Schedule, DATE_CHOICES
+from triovet.apps.schedule.forms import NewAppointmentForm
+import logging
 
-from triovet.apps.schedule.models import Schedule
+logging.basicConfig(level=logging.INFO)
 
-
-def calculate_current_week():
-    start_date = datetime.now()
-    end_date = start_date + timedelta(days=7)
-    items = [start_date]
-    week_str = []
-
-    while start_date < end_date:
-        start_date += timedelta(days=1)
-        items.append(start_date)
-
-    for date in items:
-        week_str.append(date.strftime("%B %d, %A"))
-
-    return week_str
+logger = logging.getLogger(__name__)
 
 
 def appointments(request):
-    current_appointments = Schedule.objects.filter(day__range=[date.today(), date.today() + timedelta(days=7)])
-    current_week = calculate_current_week()
-    return render(request, "appointments.html", {"current_appointments": current_appointments, "current_week": current_week})
+    if request.method == "GET":
+        if request.GET.get("status") is not None:
+            status = request.GET.get("status")
+            appointments = Schedule.objects.filter(status=request.GET.get("status"))
+            return render(request, "appointments.html", {"appointments": appointments, "status": status})
+        else:
+            appointments = Schedule.objects.all()
+            return render(request, "appointments.html", {"appointments": appointments})
+    else:
+        return redirect("appointments")
 
 
-def confirm_appointment(request):
-    return render(request, "confirm_appointment.html")
+def delete_appointment(request, appointment_id):
+    if request.method == "POST":
+        Schedule.objects.filter(id=appointment_id).delete()
+        return redirect("appointments")
+
+
+def approve_appointment(request, appointment_id):
+    if request.method == "POST":
+        Schedule.objects.filter(id=appointment_id).update(status="APPROVED")
+        return redirect("appointments")
+
+
+def new_appointment(request):
+    dates = DATE_CHOICES
+    if request.method == "POST":
+        form = NewAppointmentForm(request.POST)
+        if form.is_valid():
+            day = request.POST.get("day")
+            time = request.POST.get("time")
+            phone = request.POST.get("phone")
+            Schedule.objects.get_or_create(day=day, time=time,
+                                           phone=phone)
+            form = NewAppointmentForm()
+            return render(request, "new_appointment.html", {"form": form, "day": day, "time": time, "phone": phone})
+        else:
+            form = NewAppointmentForm(request.POST)
+    else:
+        form = NewAppointmentForm()
+    return render(request, "new_appointment.html", {"form": form, "dates": dates})

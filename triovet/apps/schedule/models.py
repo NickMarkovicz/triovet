@@ -1,10 +1,33 @@
-from datetime import datetime, timedelta, date
-from django.utils import timezone
+from datetime import datetime, timedelta
 
-from django.conf import settings
 from django.db import models
 
-SCHEDULE_CHOICES = (
+
+def get_current_week():
+    start_date = datetime.now()
+    end_date = start_date + timedelta(days=6)
+    datetime_objects = [start_date]
+    date_objects = []
+    date_choices = ()
+
+    while start_date < end_date:
+        start_date += timedelta(days=1)
+        datetime_objects.append(start_date)
+
+    for datetime_obj in datetime_objects:
+        date_obj = datetime_obj.date()
+        date_objects.append(date_obj)
+
+    for obj in date_objects:
+        date = (f"{obj.strftime('%d/%m/%Y')}", f"{obj.strftime('%B %-d, %A')}")
+        date_choices_temp = list(date_choices)
+        date_choices_temp.append(date)
+        date_choices = tuple(date_choices_temp)
+
+    return date_choices
+
+
+TIME_CHOICES = (
     ("08.00", "08.00"),
     ("08.30", "08.30"),
     ("09.00", "09.00"),
@@ -28,12 +51,18 @@ SCHEDULE_CHOICES = (
     ("18.00", "18.00"),
 )
 
+DATE_CHOICES = get_current_week()
+
+STATUS_CHOICES = (("PENDING", "Pending"), ("APPROVED", "Approved"), ("HELD", "Held"),)
+
 
 class Schedule(models.Model):
-    time = models.CharField(max_length=64, choices=SCHEDULE_CHOICES, blank=True, null=True, unique=True)
-    day = models.DateField(blank=True, null=True)
-    patient = models.ForeignKey("patients.Patient", on_delete=models.CASCADE, related_name="patients")
-    doctor = models.ForeignKey("doctors.Doctor", on_delete=models.CASCADE, related_name="doctors")
+    day = models.CharField(max_length=10, choices=DATE_CHOICES, blank=True, null=True)
+    time = models.CharField(max_length=64, choices=TIME_CHOICES, blank=True, null=True)
+    phone = models.BigIntegerField(blank=True, null=True)
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="PENDING")
+    # patient = models.ForeignKey("patients.Patient", on_delete=models.CASCADE, related_name="patients")
+    # doctor = models.ForeignKey("doctors.Doctor", on_delete=models.CASCADE, related_name="doctors")
 
     def __str__(self):
-        return f"Appointment: {self.time} / Patient: {self.patient} / Doctor: {self.doctor}"
+        return f"Day: {self.day} / Time: {self.time}"

@@ -5,6 +5,6 @@ from .models import Schedule
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ("time", "day",)
-    fields = ("time", "day", "patient", "doctor",)
-    search_fields = ("day", "patient", "doctor",)
+    list_display = ("day", "time", "status",)
+    fields = ("day", "time", "phone", "status",)
+    search_fields = ("day", "status",)
