@@ -15,7 +15,7 @@ class UserManager(BaseUserManager):
         is_superuser: bool = False,
     ):
         if email is None:
-            raise ValueError("Неправильный адрес электронной почты.")
+            raise ValueError("Wrong email.")
 
         user = self.model(
             email=self.normalize_email(email),
