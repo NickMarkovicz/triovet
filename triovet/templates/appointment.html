@@ -1,5 +1,17 @@
-<div class="card h-100" style="border-radius: 100%">
+<div class="card mb-3">
+    <h4 class="card-header">Day: {{ appointment.day }} / Time: {{ appointment.time }}</h4>
     <div class="card-body">
-        <h5 class="card-title">{{ appointment.time }}</h5>
+        Phone: {{ appointment.phone }}<br>
+        Status: {{ appointment.status }}
+    </div>
+    <div class="card-footer d-flex gap-2">
+        <form action="{% url 'delete_appointment' appointment.id %}" method="POST">
+            {% csrf_token %}
+            <button class="btn bg-danger text-white" type="submit">Delete</button>
+        </form>
+        <form action="{% url 'confirm_appointment' appointment.id %}" method="POST">
+            {% csrf_token %}
+            <button class="btn bg-success text-white" type="submit">Confirm</button>
+        </form>
     </div>
 </div>

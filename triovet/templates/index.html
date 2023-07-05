@@ -5,6 +5,10 @@
 
 {% block content %}
     <main class="container">
-        <h3 class="text-white">Hello world!</h3>
+        {% if user.is_authenticated %}
+            <h3 class="text-white">Hello {{ user }}!</h3>
+        {% else %}
+            <h3 class="text-white">Hello guest! Please sign up or sign in!</h3>
+        {% endif %}
     </main>
 {% endblock %}

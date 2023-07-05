@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_filters %}
+
+{% block title %}New Appointment{% endblock %}
+{% block content %}
+    <main class="container">
+        {% if day %}
+            {% if time %}
+                <h3 class="text-white">Appointment created! Day: {{ day }} /
+                    Time: {{ time }}</h3>
+            {% endif %}
+        {% else %}
+            <h3 class="text-white">New Appointment</h3>
+        {% endif %}
+        <div style="background-color: #FFFFFF; border-radius: 10px; padding: 2%" class="col-5">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn bg-success text-white">Submit</button>
+            </form>
+        </div>
+    </main>
+{% endblock %}

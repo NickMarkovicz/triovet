@@ -1,105 +1,25 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Appointments{% endblock %}
-{% block content %}
-    <main class="container mt-3 mb-3">
-        <h3 class="text-white">Appointments</h3>
-        <div class="m-auto">
-            <table class="table table-borderless text-center">
-                <thead>
-                <tr>
-                    <th class="col" style="background-color: #ededed; border-bottom: 2px solid #a9a9a9;"
-                        scope="col">{{ current_week.0 }}
-                    </th>
-                    <th class="col" style="background-color: #ededed; border-bottom: 2px solid #a9a9a9;"
-                        scope="col">{{ current_week.1 }}
-                    </th>
-                    <th class="col" style="background-color: #ededed; border-bottom: 2px solid #a9a9a9;"
-                        scope="col">{{ current_week.2 }}
-                    </th>
-                    <th class="col" style="background-color: #ededed; border-bottom: 2px solid #a9a9a9;"
-                        scope="col">{{ current_week.3 }}
-                    </th>
-                    <th class="col" style="background-color: #ededed; border-bottom: 2px solid #a9a9a9;"
-                        scope="col">{{ current_week.4 }}
-                    </th>
-                    <th class="col" style="background-color: #ededed; border-bottom: 2px solid #a9a9a9;"
-                        scope="col">{{ current_week.5 }}
-                    </th>
-                    <th class="col" style="background-color: #ededed; border-bottom: 2px solid #a9a9a9;"
-                        scope="col">{{ current_week.6 }}
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.00</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.00</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.00</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.00</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.00</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.00</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.00</a></td>
-                </tr>
 
-                <tr>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.30</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.30</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.30</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.30</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.30</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.30</a></td>
-                    <td>
-                        <a class="btn"
-                           style="color: #006EB8; background-color: #EEF5FB; border-radius: 15px 15px 15px 15px"
-                           href="#">08.30</a></td>
-                </tr>
-                </tbody>
-            </table>
+{% block title %}
+    {% if status %}
+        {{ status.capitalize }} appointments
+    {% else %}All appointments
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <main class="container">
+        <div class="text-white m-auto">
+            {% if appointments|length > 0 %}
+                <h3 class="text-white">There are currently {{ appointments|length }} {{ status.lower }}
+                    appointments</h3>
+                {% for appointment in appointments %}
+                    {% include "appointment.html" %}
+                {% endfor %}
+            {% else %}
+                <h3 class="text-white">There are no {{ status.lower }} appointments!</h3>
+            {% endif %}
         </div>
-        {#        <div style="border-radius: 10px; background-color: #FFFFFF">#}
-        {#            {% for appointment in current_appointments %}#}
-        {#                {% include "appointment.html" %}#}
-        {#            {% endfor %}#}
-        {#        </div>#}
     </main>
 {% endblock %}
