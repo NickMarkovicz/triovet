@@ -11,6 +11,6 @@ class PetAdminInline(admin.TabularInline):
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
     list_display = ("name",)
-    fields = ("name", "address", "phone",)
+    fields = ("user", "name", "address",)
     search_fields = ("name",)
     inlines = (PetAdminInline,)
