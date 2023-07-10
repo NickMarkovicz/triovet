@@ -3,15 +3,39 @@
     <div class="card-body">
         Phone: {{ appointment.phone }}<br>
         Status: {{ appointment.status }}
+        {% if appointment.status == "HELD" %}
+            <br>Diagnosis:
+            {% if appointment.diagnosis.title|length > 0 %}
+                {{ appointment.diagnosis.title }} ({{ appointment.diagnosis.note }})
+            {% else %}
+                Not diagnosed yet.
+            {% endif %}
+        {% endif %}
     </div>
     <div class="card-footer d-flex gap-2">
-        <form action="{% url 'delete_appointment' appointment.id %}" method="POST">
-            {% csrf_token %}
-            <button class="btn bg-danger text-white" type="submit">Delete</button>
-        </form>
-        <form action="{% url 'confirm_appointment' appointment.id %}" method="POST">
-            {% csrf_token %}
-            <button class="btn bg-success text-white" type="submit">Confirm</button>
-        </form>
+        {% if appointment.status == "PENDING" or appointment.status == "APPROVED" %}
+            <form action="{% url 'delete_appointment' appointment.id %}" method="POST">
+                {% csrf_token %}
+                <button class="btn bg-danger text-white" type="submit">Delete</button>
+            </form>
+        {% endif %}
+        {% if appointment.status == "PENDING" %}
+            <form action="{% url 'confirm_appointment' appointment.id %}" method="POST">
+                {% csrf_token %}
+                <button class="btn bg-success text-white" type="submit">Confirm</button>
+            </form>
+        {% endif %}
+        {% if appointment.status == "PENDING" or appointment.status == "APPROVED" %}
+            <form action="{% url 'is_held_appointment' appointment.id %}" method="POST">
+                {% csrf_token %}
+                <button class="btn bg-primary text-white" type="submit">Is Held</button>
+            </form>
+        {% endif %}
+        {% if appointment.status == "HELD" %}
+            {% if appointment.diagnosis.title|length == 0 %}
+                <a class="btn btn-dark" href="{% url 'new_diagnosis' %}?appointment_id={{ appointment.id }}">Add a
+                    Diagnosis</a>
+            {% endif %}
+        {% endif %}
     </div>
 </div>

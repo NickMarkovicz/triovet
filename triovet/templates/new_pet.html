@@ -2,18 +2,17 @@
 {% load static %}
 {% load crispy_forms_filters %}
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}New Pet{% endblock %}
 
 {% block content %}
     <main class="container">
         <div class="text-white col-5">
-            <h3 class="text-white">Sign Up</h3>
-            {% if exists %}
-                <div class="d-flex gap-1">
-                    <h3 class="text-white align-items-center">User already exists!</h3>
-                    <a class="btn btn-dark" href="{% url 'sign_in' %}">Sign In</a>
-                </div>
+            {% if pet_name %}
+                {% if type %}
+                    <h3 class="text-white">Pet with name {{ pet_name }} & type {{ type.capitalize }} was added.</h3>
+                {% endif %}
             {% endif %}
+            <h3 class="text-white">New pet</h3>
             <form method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}

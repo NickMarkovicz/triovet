@@ -2,19 +2,16 @@
 {% load static %}
 {% load crispy_forms_filters %}
 
-{% block title %}Sign In{% endblock %}
+{% block title %}Add a Diagnosis{% endblock %}
 
 {% block content %}
     <main class="container">
         <div class="text-white col-5">
-            <h3 class="text-white">Sign In</h3>
-            {% if bad_login %}
-                <h3 class="text-white">Wrong credentials! Try again!</h3>
-            {% endif %}
+            <h3 class="text-white">Add a Diagnosis</h3>
             <form method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button class="btn bg-success text-white" type="submit">Submit</button>
+                <button type="submit" class="btn bg-success text-white">Submit</button>
             </form>
         </div>
     </main>

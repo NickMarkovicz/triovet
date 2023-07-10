@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ user.patient.name }} Profile{% endblock %}
+
+{% block content %}
+    <main class="container">
+        <h3 class="text-white">User profile</h3>
+        <div class="card col-5">
+            <div class="card-header">
+                User: {{ user.email }}
+            </div>
+            <div class="card-body">
+                Name: {{ user.patient.name }}<br>
+                {% if pet_list|length > 0 %}
+                    Pets:
+                    {% for pet in pet_list %}
+                        {{ pet.name }} ({{ pet.type.capitalize }}){% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                {% else %}
+                    You haven't added a single pet yet!
+                {% endif %}
+            <br>
+                {% if appointments|length > 0 %}
+                    Appointments:
+                    {% for appointment in appointments %}
+                        {{ appointment.day }} ({{ appointment.time }}){% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                {% else %}
+                    You have no appointments!
+                {% endif %}
+            </div>
+            <div class="card-footer text-white">
+                <a class="btn btn-dark" href="#">Change Email</a>
+                <a class="btn btn-dark" href="{% url 'new_pet' %}">Add a Pet</a>
+            </div>
+        </div>
+    </main>
+{% endblock %}

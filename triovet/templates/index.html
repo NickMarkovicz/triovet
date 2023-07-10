@@ -6,7 +6,7 @@
 {% block content %}
     <main class="container">
         {% if user.is_authenticated %}
-            <h3 class="text-white">Hello {{ user }}!</h3>
+            <h3 class="text-white">Hello {{ user.patient.name }}!</h3>
         {% else %}
             <h3 class="text-white">Hello guest! Please sign up or sign in!</h3>
         {% endif %}

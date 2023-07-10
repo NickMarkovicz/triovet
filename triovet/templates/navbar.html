@@ -29,9 +29,9 @@
                         </ul>
                     </div>
                 {% endif %}
-                <div class="btn-group btn-dark">
+                <div class="btn-group dropstart btn-dark">
                     {% if user.is_authenticated %}
-                        <button type="button" class="btn btn-dark" href="#">User: {{ user }}</button>
+                        <a type="button" class="btn btn-dark" href="{% url 'profile' %}?user_id={{ user.id }}"> {{ user.patient.name }}</a>
                         <ul class="dropdown-menu">
                             {% if user.is_staff or user.is_superuser %}
                                 <li><a class="dropdown-item" href="/admin/">Open Admin Panel</a></li>
