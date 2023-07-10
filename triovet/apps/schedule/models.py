@@ -59,9 +59,9 @@ STATUS_CHOICES = (("PENDING", "Pending"), ("APPROVED", "Approved"), ("HELD", "He
 class Schedule(models.Model):
     day = models.CharField(max_length=10, choices=DATE_CHOICES, blank=True, null=True)
     time = models.CharField(max_length=64, choices=TIME_CHOICES, blank=True, null=True)
-    phone = models.BigIntegerField(blank=True, null=True)
+    phone = models.CharField(blank=True, null=True)
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="PENDING")
-    # patient = models.ForeignKey("patients.Patient", on_delete=models.CASCADE, related_name="patients")
+    patient = models.ForeignKey("patients.Patient", on_delete=models.CASCADE, related_name="patients", blank=True, null=True)
     # doctor = models.ForeignKey("doctors.Doctor", on_delete=models.CASCADE, related_name="doctors")
 
     def __str__(self):
