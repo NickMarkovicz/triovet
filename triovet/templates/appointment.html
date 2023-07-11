@@ -1,6 +1,7 @@
 <div class="card mb-3">
     <h4 class="card-header">Day: {{ appointment.day }} / Time: {{ appointment.time }}</h4>
     <div class="card-body">
+        Patient: {{ appointment.patient.name }}<br>
         Phone: {{ appointment.phone }}<br>
         Status: {{ appointment.status }}
         {% if appointment.status == "HELD" %}
